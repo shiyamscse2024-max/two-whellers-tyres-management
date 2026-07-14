@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<h1>Sales History</h1>
+
+<table border="1">
+
+<tr>
+<th>ID</th>
+<th>Customer</th>
+<th>Vehicle</th>
+<th>Front Tyre</th>
+<th>Rear Tyre</th>
+<th>Total</th>
+<th>Date</th>
+</tr>
+
+{% for sale in sales %}
+
+<tr>
+
+<td>{{ sale[0] }}</td>
+<td>{{ sale[1] }}</td>
+<td>{{ sale[2] }}</td>
+<td>{{ sale[3] }} ({{ sale[5] }})</td>
+<td>{{ sale[4] }} ({{ sale[6] }})</td>
+<td>₹{{ sale[7] }}</td>
+<td>{{ sale[8] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

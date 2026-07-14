@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<h1>Edit Vehicle</h1>
+
+<form method="POST">
+
+Company<br>
+<input type="text" name="company" value="{{ vehicle[1] }}"><br><br>
+
+Model<br>
+<input type="text" name="model" value="{{ vehicle[2] }}"><br><br>
+
+Front Tyre<br>
+<input type="text" name="front_tyre" value="{{ vehicle[3] }}"><br><br>
+
+Rear Tyre<br>
+<input type="text" name="rear_tyre" value="{{ vehicle[4] }}"><br><br>
+
+Tube Type<br>
+<input type="text" name="tube_type" value="{{ vehicle[5] }}"><br><br>
+
+<button type="submit">Update Vehicle</button>
+
+</form>
+
+{% endblock %}

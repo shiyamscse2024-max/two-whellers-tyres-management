@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<h1>🏍 Vehicle Database</h1>
+
+<a href="/add-vehicle">➕ Add Vehicle</a>
+
+<br><br>
+
+<table border="1">
+
+<tr>
+
+<th>ID</th>
+
+<th>Company</th>
+
+<th>Model</th>
+
+<th>Front Tyre</th>
+
+<th>Rear Tyre</th>
+
+<th>Tube Type</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for vehicle in vehicles %}
+
+<tr>
+
+<td>{{ vehicle[0] }}</td>
+
+<td>{{ vehicle[1] }}</td>
+
+<td>{{ vehicle[2] }}</td>
+
+<td>{{ vehicle[3] }}</td>
+
+<td>{{ vehicle[4] }}</td>
+
+<td>{{ vehicle[5] }}</td>
+
+<td>
+
+<a href="/edit-vehicle/{{ vehicle[0] }}">Edit</a>
+
+|
+
+<a href="/delete-vehicle/{{ vehicle[0] }}">Delete</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

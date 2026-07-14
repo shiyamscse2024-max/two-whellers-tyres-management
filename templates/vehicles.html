@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<h1>🏍 Vehicle Search</h1>
+
+<form method="POST">
+
+    <input
+    type="text"
+    name="model"
+    placeholder="Enter Vehicle Model">
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+{% if vehicle %}
+
+<h2>{{ vehicle[2] }}</h2>
+
+<p><strong>Company:</strong> {{ vehicle[1] }}</p>
+
+<p><strong>Front Tyre:</strong> {{ vehicle[3] }}</p>
+
+<p><strong>Rear Tyre:</strong> {{ vehicle[4] }}</p>
+
+<p><strong>Type:</strong> {{ vehicle[5] }}</p>
+
+{% elif request.method == "POST" %}
+
+<h2>Vehicle Not Found</h2>
+
+{% endif %}
+
+{% endblock %}

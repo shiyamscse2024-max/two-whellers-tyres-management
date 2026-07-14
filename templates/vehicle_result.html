@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<h1>Vehicle Search</h1>
+
+<form method="POST">
+
+<input
+type="text"
+name="model"
+placeholder="Enter Vehicle Model"
+required>
+
+<button type="submit">
+Search
+</button>
+
+</form>
+
+{% if vehicle %}
+
+<h2>{{ vehicle[2] }}</h2>
+
+<h3>Front Tyres</h3>
+
+<table border="1">
+
+<tr>
+
+<th>Brand</th>
+<th>Tyre</th>
+<th>Price</th>
+<th>Stock</th>
+
+</tr>
+
+{% for tyre in front_tyres %}
+
+<tr>
+
+<td>{{ tyre[1] }}</td>
+<td>{{ tyre[3] }}</td>
+<td>₹{{ tyre[4] }}</td>
+<td>{{ tyre[5] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<h3>Rear Tyres</h3>
+
+<table border="1">
+
+<tr>
+
+<th>Brand</th>
+<th>Tyre</th>
+<th>Price</th>
+<th>Stock</th>
+
+</tr>
+
+{% for tyre in rear_tyres %}
+
+<tr>
+
+<td>{{ tyre[1] }}</td>
+<td>{{ tyre[3] }}</td>
+<td>₹{{ tyre[4] }}</td>
+<td>{{ tyre[5] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endif %}
+
+{% endblock %}

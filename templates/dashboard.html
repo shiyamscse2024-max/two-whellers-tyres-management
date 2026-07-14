@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    📊 Dashboard
+</h2>
+
+<div class="row">
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card text-white bg-primary shadow">
+
+            <div class="card-body">
+
+                <h5>Total Tyres</h5>
+
+                <h2>{{ total_tyres }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card text-white bg-success shadow">
+
+            <div class="card-body">
+
+                <h5>Total Stock</h5>
+
+                <h2>{{ total_stock }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card text-white bg-warning shadow">
+
+            <div class="card-body">
+
+                <h5>Low Stock</h5>
+
+                <h2>{{ low_stock }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card text-white bg-danger shadow">
+
+            <div class="card-body">
+
+                <h5>Total Sales</h5>
+
+                <h2>{{ total_sales }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4>Total Revenue</h4>
+                <h1 class="text-success">₹{{ "{:,}".format(total_revenue) }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4>Low Stock Items</h4>
+                <ul class="mb-0">
+                    {% for item in low_stock_items %}
+                    <li>{{ item[1] }} {{ item[3] }} - {{ item[5] }} left</li>
+                    {% else %}
+                    <li>No low stock items.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+<hr class="my-5">
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow p-4">
+            <h3 class="mb-4">📈 Monthly Revenue</h3>
+            <canvas id="salesChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow p-4">
+            <h3 class="mb-4">🏷️ Top Brands</h3>
+            <canvas id="brandChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow p-4 mt-3">
+    <h3 class="mb-4">🧾 Recent Sales</h3>
+    <ul>
+        {% for sale in recent_sales %}
+        <li>{{ sale[0] }} - {{ sale[0] }} - ₹{{ sale[1] }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById('salesChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ months|tojson }},
+        datasets: [{
+            label: 'Revenue (₹)',
+            data: {{ revenues|tojson }},
+            borderWidth: 2,
+            backgroundColor: '#2563eb'
+        }]
+    },
+    options: {responsive: true, scales: {y: {beginAtZero: true}}}
+});
+
+const brandCtx = document.getElementById('brandChart');
+new Chart(brandCtx, {
+    type: 'doughnut',
+    data: {
+        labels: {{ brand_names|tojson }},
+        datasets: [{
+            data: {{ brand_count|tojson }},
+            backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
+        }]
+    },
+    options: {responsive: true}
+});
+</script>
+
+{% endblock %}

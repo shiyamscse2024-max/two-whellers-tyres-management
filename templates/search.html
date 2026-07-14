@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Professional Search</h2>
+<form method="POST" class="mb-4">
+  <div class="input-group">
+    <input type="text" class="form-control" name="query" value="{{ query }}" placeholder="Search brand, size, tyre name, vehicle model or customer name">
+    <button class="btn btn-primary">Search</button>
+  </div>
+</form>
+
+{% if query %}
+<div class="row">
+  <div class="col-md-4">
+    <h5>Tyres</h5>
+    <ul class="list-group">
+      {% for tyre in tyres %}
+      <li class="list-group-item">{{ tyre[1] }} | {{ tyre[2] }} | {{ tyre[3] }} | ₹{{ tyre[4] }}</li>
+      {% else %}
+      <li class="list-group-item">No tyres found.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <h5>Customers</h5>
+    <ul class="list-group">
+      {% for customer in customers %}
+      <li class="list-group-item">{{ customer[1] }} | {{ customer[3] }} | {{ customer[4] }}</li>
+      {% else %}
+      <li class="list-group-item">No customers found.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <h5>Vehicles</h5>
+    <ul class="list-group">
+      {% for vehicle in vehicles %}
+      <li class="list-group-item">{{ vehicle[1] }} | {{ vehicle[2] }}</li>
+      {% else %}
+      <li class="list-group-item">No vehicles found.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

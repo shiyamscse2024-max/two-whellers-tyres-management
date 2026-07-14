@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Update Tyre</h1>
+
+<p><strong>Brand:</strong> {{ tyre[1] }}</p>
+
+<p><strong>Size:</strong> {{ tyre[2] }}</p>
+
+<p><strong>Name:</strong> {{ tyre[3] }}</p>
+
+<form method="POST">
+
+<label>Price</label>
+
+<br>
+
+<input
+type="number"
+name="price"
+value="{{ tyre[4] }}">
+
+<br><br>
+
+<button type="submit">
+
+Save
+
+</button>
+
+</form>
+
+{% endblock %}

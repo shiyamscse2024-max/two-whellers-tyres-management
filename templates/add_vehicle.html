@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<h1>➕ Add Vehicle</h1>
+
+<form method="POST">
+
+<label>Company</label><br>
+<input type="text" name="company" required>
+
+<br><br>
+
+<label>Model</label><br>
+<input type="text" name="model" required>
+
+<br><br>
+
+<label>Front Tyre</label><br>
+<input type="text" name="front_tyre" required>
+
+<br><br>
+
+<label>Rear Tyre</label><br>
+<input type="text" name="rear_tyre" required>
+
+<br><br>
+
+<label>Tube Type</label><br>
+
+<select name="tube_type">
+
+<option>Tube</option>
+
+<option>Tubeless</option>
+
+</select>
+
+<br><br>
+
+<button type="submit">
+
+Save Vehicle
+
+</button>
+
+</form>
+
+<br>
+
+<a href="/all-vehicles">⬅ Back</a>
+
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card shadow p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="mb-1"><i class="bi bi-receipt"></i> Create Invoice</h2>
+          <p class="text-muted mb-0">Fast billing with live price calculation and stock deduction.</p>
+        </div>
+        <span class="badge bg-success p-2">Live Billing</span>
+      </div>
+
+      <form method="POST" id="billingForm">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Customer</label>
+            <select class="form-select" id="customerSelect" name="customer_id" required>
+              <option value="">Select Customer</option>
+              {% for customer in customers %}
+              <option value="{{ customer[0] }}" data-name="{{ customer[1] }}" data-mobile="{{ customer[2] }}" data-vehicle="{{ customer[3] }}" data-model="{{ customer[4] }}">
+                {{ customer[1] }} - {{ customer[3] }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Vehicle</label>
+            <select class="form-select" id="vehicleSelect" name="vehicle_id" required>
+              <option value="">Select Vehicle</option>
+              {% for vehicle in vehicles %}
+              <option value="{{ vehicle[0] }}" data-model="{{ vehicle[2] }}">{{ vehicle[1] }} | {{ vehicle[2] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Customer Name</label>
+            <input type="text" class="form-control" id="customerName" name="customer_name" readonly>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Mobile</label>
+            <input type="text" class="form-control" id="mobile" readonly>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Vehicle Model</label>
+            <input type="text" class="form-control" id="vehicleModel" name="vehicle_model" readonly>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Front Tyre</label>
+            <select class="form-select" id="frontTyre" name="front_tyre" required>
+              <option value="">Select Front Tyre</option>
+              {% for tyre in tyres %}
+              <option value="{{ tyre[2] }}" data-price="{{ tyre[4] }}" data-stock="{{ tyre[5] }}">
+                {{ tyre[1] }} | {{ tyre[3] }} | {{ tyre[2] }} | ₹{{ tyre[4] }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Rear Tyre</label>
+            <select class="form-select" id="rearTyre" name="rear_tyre" required>
+              <option value="">Select Rear Tyre</option>
+              {% for tyre in tyres %}
+              <option value="{{ tyre[2] }}" data-price="{{ tyre[4] }}" data-stock="{{ tyre[5] }}">
+                {{ tyre[1] }} | {{ tyre[3] }} | {{ tyre[2] }} | ₹{{ tyre[4] }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Front Qty</label>
+            <input type="number" class="form-control" id="frontQty" name="front_qty" value="1" min="1" required>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Rear Qty</label>
+            <input type="number" class="form-control" id="rearQty" name="rear_qty" value="1" min="1" required>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Discount %</label>
+            <input type="number" class="form-control" id="discount" name="discount" value="0" min="0" max="100">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Total</label>
+            <input type="text" class="form-control fw-bold" id="invoiceTotal" value="₹0" readonly>
+          </div>
+        </div>
+
+        <div class="alert alert-info mt-4" id="stockAlert">Select tyres to see pricing and stock status.</div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button class="btn btn-success" type="submit" id="submitBtn">
+            <i class="bi bi-check-circle-fill"></i> Generate Invoice
+          </button>
+          <button class="btn btn-outline-secondary" type="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+const customerSelect = document.getElementById('customerSelect');
+const vehicleSelect = document.getElementById('vehicleSelect');
+const customerName = document.getElementById('customerName');
+const mobile = document.getElementById('mobile');
+const vehicleModel = document.getElementById('vehicleModel');
+const frontTyre = document.getElementById('frontTyre');
+const rearTyre = document.getElementById('rearTyre');
+const frontQty = document.getElementById('frontQty');
+const rearQty = document.getElementById('rearQty');
+const discount = document.getElementById('discount');
+const invoiceTotal = document.getElementById('invoiceTotal');
+const stockAlert = document.getElementById('stockAlert');
+const billingForm = document.getElementById('billingForm');
+const submitBtn = document.getElementById('submitBtn');
+
+function updateCustomerInfo() {
+  const option = customerSelect.options[customerSelect.selectedIndex];
+  customerName.value = option.dataset.name || '';
+  mobile.value = option.dataset.mobile || '';
+  vehicleModel.value = option.dataset.model || '';
+}
+
+function updateVehicleInfo() {
+  const option = vehicleSelect.options[vehicleSelect.selectedIndex];
+  vehicleModel.value = option.dataset.model || vehicleModel.value;
+}
+
+function calculateTotal() {
+  const frontOption = frontTyre.options[frontTyre.selectedIndex];
+  const rearOption = rearTyre.options[rearTyre.selectedIndex];
+  const frontPrice = parseInt(frontOption?.dataset.price || 0);
+  const rearPrice = parseInt(rearOption?.dataset.price || 0);
+  const frontStock = parseInt(frontOption?.dataset.stock || 0);
+  const rearStock = parseInt(rearOption?.dataset.stock || 0);
+  const frontQtyValue = parseInt(frontQty.value || 1);
+  const rearQtyValue = parseInt(rearQty.value || 1);
+  const discountValue = parseInt(discount.value || 0);
+
+  const subtotal = (frontPrice * frontQtyValue) + (rearPrice * rearQtyValue);
+  const discountAmount = Math.round(subtotal * discountValue / 100);
+  const total = subtotal - discountAmount;
+  invoiceTotal.value = `₹${total.toLocaleString()}`;
+
+  let message = `Subtotal: ₹${subtotal.toLocaleString()}`;
+  if (discountValue > 0) message += ` | Discount: ₹${discountAmount.toLocaleString()}`;
+  if (frontStock < frontQtyValue || rearStock < rearQtyValue) {
+    message += ' | Stock is insufficient for one or more tyres.';
+    stockAlert.className = 'alert alert-danger mt-4';
+  } else {
+    message += ' | Stock looks sufficient.';
+    stockAlert.className = 'alert alert-info mt-4';
+  }
+  stockAlert.innerHTML = message;
+}
+
+customerSelect.addEventListener('change', updateCustomerInfo);
+vehicleSelect.addEventListener('change', updateVehicleInfo);
+[frontTyre, rearTyre, frontQty, rearQty, discount].forEach(el => el.addEventListener('input', calculateTotal));
+[frontTyre, rearTyre].forEach(el => el.addEventListener('change', calculateTotal));
+
+billingForm.addEventListener('submit', () => {
+  submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing';
+  submitBtn.disabled = true;
+});
+
+window.addEventListener('load', () => {
+  updateCustomerInfo();
+  calculateTotal();
+});
+</script>
+{% endblock %}

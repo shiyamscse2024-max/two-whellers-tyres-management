@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Add Customer</h1>
+
+<form method="POST">
+
+    <label>Name</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Mobile</label><br>
+    <input type="text" name="mobile" required><br><br>
+
+    <label>Vehicle Number</label><br>
+    <input type="text" name="vehicle_number" required><br><br>
+
+    <label>Vehicle Model</label><br>
+    <input type="text" name="vehicle_model" required><br><br>
+
+    <button type="submit">Save Customer</button>
+
+</form>
+
+{% endblock %}
