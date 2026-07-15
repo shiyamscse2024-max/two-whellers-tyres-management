@@ -3,8 +3,25 @@
 {% block content %}
 <h2 class="mb-4">Professional Search</h2>
 <form method="POST" class="mb-4">
+  <div class="row g-2 mb-2">
+    <div class="col-md-3">
+      <input type="text" class="form-control" name="brand" placeholder="Brand">
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" name="tyre_size" placeholder="Tyre Size">
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" name="vehicle_model" placeholder="Vehicle Model">
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" name="customer_name" placeholder="Customer Name">
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" name="tyre_name" placeholder="Tyre Name">
+    </div>
+  </div>
   <div class="input-group">
-    <input type="text" class="form-control" name="query" value="{{ query }}" placeholder="Search brand, size, tyre name, vehicle model or customer name">
+    <input type="text" class="form-control" name="query" value="{{ query }}" placeholder="Free text search">
     <button class="btn btn-primary">Search</button>
   </div>
 </form>

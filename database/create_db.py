@@ -49,6 +49,13 @@ CREATE TABLE IF NOT EXISTS sales (
     front_qty INTEGER,
     rear_qty INTEGER,
     total_amount INTEGER,
+    front_price INTEGER,
+    rear_price INTEGER,
+    tube INTEGER,
+    alignment INTEGER,
+    balancing INTEGER,
+    discount INTEGER,
+    gst INTEGER,
     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 """)

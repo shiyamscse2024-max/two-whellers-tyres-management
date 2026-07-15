@@ -101,6 +101,36 @@
     </div>
 
 </div>
+<!-- New quick widgets row -->
+<div class="row mt-4">
+    <div class="col-md-3 mb-3">
+        <div class="card shadow p-3">
+            <h6>Today's Sales</h6>
+            <h3>{{ today_sales_count }}</h3>
+            <small class="text-muted">₹{{ today_revenue }}</small>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow p-3">
+            <h6>Total Customers</h6>
+            <h3>{{ total_customers }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow p-3">
+            <h6>Total Vehicles</h6>
+            <h3>{{ total_vehicles }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow p-3">
+            <h6>Quick Actions</h6>
+            <a href="{{ url_for('add_tyre') }}" class="btn btn-sm btn-primary mb-1">Add Tyre</a>
+            <a href="{{ url_for('add_vehicle') }}" class="btn btn-sm btn-secondary mb-1">Add Vehicle</a>
+            <a href="{{ url_for('add_customer') }}" class="btn btn-sm btn-success mb-1">Add Customer</a>
+        </div>
+    </div>
+</div>
 <hr class="my-5">
 
 <div class="row">
